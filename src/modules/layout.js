@@ -1,4 +1,4 @@
-import handleAddTask from "./handleAddTask";
+import taskForm from "./taskForm";
 
 function createHeader() {
   const header = document.createElement("header");
@@ -27,19 +27,18 @@ function createSidebar() {
   return sidebar;
 }
 
-function createAddtaskDiv() {
+export function createAddtaskDiv() {
   const addTaskDiv = document.createElement("div");
   addTaskDiv.textContent = "Add a Task";
   addTaskDiv.classList.add("add-task");
-  addTaskDiv.addEventListener("click", handleAddTask);
+  addTaskDiv.addEventListener("click", taskForm);
   return addTaskDiv;
 }
 
-export function createMainContent() {
+function createMainContent() {
   const mainContent = document.createElement("div");
   mainContent.id = "main-content";
-  mainContent.replaceChildren()
-  mainContent.append(createAddtaskDiv());
+  mainContent.replaceChildren();
   return mainContent;
 }
 
@@ -50,12 +49,10 @@ function createFooter() {
 }
 
 export default function template() {
-  const createTemplate = () => {
-    const body = document.querySelector("body");
-    const main = document.createElement("main");
-    main.append(createSidebar(), createMainContent());
-    body.append(createHeader(), main, createFooter());
-  };
+  const body = document.querySelector("body");
+  const main = document.createElement("main");
+  main.append(createSidebar(), createMainContent());
+  body.append(createHeader(), main, createFooter());
 
-  return createTemplate();
+  return body;
 }
