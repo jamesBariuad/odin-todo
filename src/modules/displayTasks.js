@@ -12,14 +12,6 @@ export default function displayTasks() {
   return mainContent;
 }
 
-const createDivsPerTask = (tasks, mainContent) => {
-  for (let i = 0; i < tasks.length; i++) {
-    const taskDiv = createTaskDiv(tasks[i]);
-    mainContent.append(taskDiv);
-  }
-  return mainContent;
-};
-
 const createAndSortTaskArray = (tasks) => {
   for (let i = 0; i <= localStorage.length - 1; i++) {
     const task = JSON.parse(localStorage.getItem(localStorage.key(i)));
@@ -31,6 +23,16 @@ const createAndSortTaskArray = (tasks) => {
   });
   return tasks;
 };
+
+
+const createDivsPerTask = (tasks, mainContent) => {
+  for (let i = 0; i < tasks.length; i++) {
+    const taskDiv = createTaskDiv(tasks[i]);
+    mainContent.append(taskDiv);
+  }
+  return mainContent;
+};
+
 
 const handleCheckboxClick = (e) => {
   const mainContent = document.querySelector("#main-content");
