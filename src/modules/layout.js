@@ -1,5 +1,7 @@
 import displayTasks from "./displayTasks";
 import taskForm from "./taskForm";
+import { displayProjectNamesInSidebar, disPlayProjectTitleInMainContent, displayTasksInProject } from "./displayProject";
+
 import addProject from "./addProject";
 
 function createHeader() {
@@ -22,6 +24,7 @@ function createSidebar() {
 
   const sidebarProjects = document.createElement("div");
   sidebarProjects.textContent = "Projects";
+  sidebarProjects.id = "sidebar-projects";
 
   sidebarProjects.append(createAddProjectDiv());
 
@@ -29,24 +32,39 @@ function createSidebar() {
   return sidebar;
 }
 
-
 const handleAddProjectButtonClick = (inputProject, inputDiv, addProjectDiv) => {
   const currentProjects = localStorage.getItem("Projects");
+  const projectName = inputProject.value
+ 
+  if (!projectName) {
+    return alert(`Project name can't be empty`);
+  }
   if (!currentProjects) {
-    console.log("alaws");
     localStorage.setItem(
       "Projects",
-      JSON.stringify([{ title: inputProject.value, tasks: [] }])
+      JSON.stringify([{ title: projectName, tasks: [] }])
     );
   } else {
     const currentProjectsParsed = JSON.parse(currentProjects);
-    const projectToAdd = { title: inputProject.value, tasks: [] };
+    
+    const checkIfDuplicateName = () => {
+      const checkProjectName = project => project.title == projectName
+      return currentProjectsParsed.some(checkProjectName)
+    }
+
+    if(checkIfDuplicateName()==true){
+     return  alert(`Project name already exist!`)
+    }
+
+    const projectToAdd = { title: projectName, tasks: [] };
     localStorage.setItem(
       "Projects",
       JSON.stringify([...currentProjectsParsed, projectToAdd])
     );
   }
-
+  displayProjectNamesInSidebar();
+  disPlayProjectTitleInMainContent(projectName)
+  displayTasksInProject(projectName)
   inputDiv.replaceWith(addProjectDiv);
 };
 
@@ -55,8 +73,6 @@ const handleCancelClick = (inputDiv, addProjectDiv) => {
 };
 
 const handleAddProjectDivClick = (e, addProjectDiv) => {
-  const projectsDiv = e.target.parentElement;
-
   const inputDiv = document.createElement("div");
   inputDiv.id = "add-project-input";
   const inputProject = document.createElement("input");
@@ -78,7 +94,7 @@ const handleAddProjectDivClick = (e, addProjectDiv) => {
   e.target.replaceWith(inputDiv);
 };
 
-function createAddProjectDiv() {
+export function createAddProjectDiv() {
   const addProjectDiv = document.createElement("div");
   addProjectDiv.textContent = "Add Project";
   addProjectDiv.id = "add-project";

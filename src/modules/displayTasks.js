@@ -6,16 +6,23 @@ export default function displayTasks() {
   let tasks = [];
   mainContent.replaceChildren()
 
+  
   createAndSortTaskArray(tasks);
   createDivsPerTask(tasks, mainContent);
   mainContent.append(createAddtaskDiv());
+
   return mainContent;
 }
 
 const createAndSortTaskArray = (tasks) => {
   for (let i = 0; i <= localStorage.length - 1; i++) {
     const task = JSON.parse(localStorage.getItem(localStorage.key(i)));
+    if (!task.title){
+      return
+    }else{
+
     tasks.push(task);
+    }
   }
 
   tasks.sort(function (a, b) {
