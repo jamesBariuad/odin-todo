@@ -20,21 +20,21 @@ export default function createTaskForm() {
   return addTaskDiv;
 }
 
-const createTasknameField = () => {
+export const createTasknameField = () => {
   const taskName = document.createElement("div");
   taskName.setAttribute("contentEditable", "true");
   taskName.setAttribute("data-text", "Task Name");
   return taskName;
 };
 
-const createDescriptionField = () => {
+export const createDescriptionField = () => {
   const taskDescription = document.createElement("div");
   taskDescription.setAttribute("contentEditable", "true");
   taskDescription.setAttribute("data-text", "Task Description");
   return taskDescription;
 };
 
-const createDeadlineField = () => {
+export const createDeadlineField = () => {
   let date = "";
   const dueDateDiv = document.createElement("div");
   dueDateDiv.textContent = "Due Date:";
@@ -48,7 +48,7 @@ const createDeadlineField = () => {
   return dueDateDiv;
 };
 
-const createPriorityField = () => {
+export const createPriorityField = () => {
   const priorityDiv = document.createElement("div");
   priorityDiv.textContent = "Priority:";
 
@@ -136,7 +136,7 @@ const createSubmitButton = () => {
   return submit;
 };
 
-const createCancelButton = () => {
+export const createCancelButton = () => {
   const cancel = document.createElement("button");
   cancel.textContent = "cancel";
   cancel.addEventListener("click", () => {
