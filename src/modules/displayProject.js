@@ -1,5 +1,6 @@
 import { createAddProjectDiv } from "./layout";
 import taskFactory from "./taskFactory";
+import createCheckbox from "./checkBoxForProjectTasks";
 // import {  } from "./layout";
 import {
   createTasknameField,
@@ -142,7 +143,6 @@ const displayTasksInProject = (projectName) => {
   const project = projects[indexOfProjectName];
 
   for (let i = 0; i < project.tasks.length; i++) {
-    console.log(project.tasks[i]);
     projectContainer.append(createTaskDiv(project.tasks[i]));
   }
   mainContent.append(projectContainer, createProjectTaskForm());
@@ -159,6 +159,7 @@ const createTaskDiv = (task) => {
 
   // const checkBox = document.createElement("input");
   // checkBox.type = "checkbox";
+  const checkBox = createCheckbox();
 
   // checkBox.addEventListener("click", (e) => handleCheckboxClick(e));
 
@@ -167,7 +168,13 @@ const createTaskDiv = (task) => {
   dueDateDiv.textContent = `Due date:${task.dueDate}`;
   priorityDiv.textContent = `Priority:${task.priority}`;
 
-  taskDiv.append(taskNameDiv, taskDetailsDiv, dueDateDiv, priorityDiv);
+  taskDiv.append(
+    checkBox,
+    taskNameDiv,
+    taskDetailsDiv,
+    dueDateDiv,
+    priorityDiv
+  );
   return taskDiv;
 };
 
