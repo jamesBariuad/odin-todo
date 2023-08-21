@@ -1,8 +1,7 @@
 import displayTasks from "./displayTasks";
 import taskForm from "./taskForm";
 import { displayProjectNamesInSidebar, disPlayProjectTitleInMainContent, displayTasksInProject } from "./displayProject";
-
-import addProject from "./addProject";
+import { handleHomeClick } from "./sidebarHandleClicks";
 
 function createHeader() {
   const header = document.createElement("header");
@@ -17,6 +16,9 @@ function createSidebar() {
   sidebar.id = "sidebar";
   const sidebarHome = document.createElement("div");
   sidebarHome.textContent = "Home";
+  sidebarHome.id = "sidebarHome"
+  sidebarHome.addEventListener('click', handleHomeClick)
+
   const sidebarToday = document.createElement("div");
   sidebarToday.textContent = "Today";
   const sidebarWeek = document.createElement("div");

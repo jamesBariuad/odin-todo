@@ -4,6 +4,9 @@ import { createTasknameField, createDescriptionField } from "./taskForm";
 const editTask = (e) => {
   const taskName = e.target.parentElement.id.toString();
   const taskToEdit = document.querySelector(`[id='${taskName}']`);
+  if(!taskToEdit){
+    return
+  }
   if (taskName == "") {
     return;
   }
@@ -20,7 +23,7 @@ const createFields = (task) => {
   const deadlineField = createDeadlineField(task);
   const priorityField = createPriorityField(task);
   const cancelButton = createCancelButton();
-  const addButton = createAddButton(task);
+  const addButton = createSubmitButton(task);
 
   taksNameField.textContent = task.title;
   descriptionField.textContent = task.description;
@@ -62,11 +65,11 @@ const createPriorityField = (task) => {
     low.classList.remove("active-button");
     medium.classList.remove("active-button");
     high.classList.remove("active-button");
-    if (e.target.innerText == "low" || task.priority == "low") {
+    if (e.target.innerText == "low" ) {
       low.classList.add("active-button");
-    } else if (e.target.innerText == "medium" || task.priority == "medium") {
+    } else if (e.target.innerText == "medium" ) {
       medium.classList.add("active-button");
-    } else if (e.target.innerText == "high" || task.priority == "high") {
+    } else if (e.target.innerText == "high" ) {
       high.classList.add("active-button");
     }
     priority = e.target.innerText;
@@ -154,10 +157,10 @@ const addEditedTaskToProject = (task, index) => {
   localStorage.setItem("Projects", JSON.stringify(projects));
 };
 
-const createAddButton = (task) => {
+const createSubmitButton = (task) => {
   const addButton = document.createElement("button");
   addButton.type = "button";
-  addButton.textContent = "submit";
+  addButton.textContent = "Submit";
   const index = findIndexOfTaskFromProject(task.title);
 
   addButton.addEventListener("click", () =>
@@ -175,3 +178,4 @@ const findIndexOfTaskFromProject = (taskName) => {
 };
 
 export default editTask;
+export {createPriorityField}

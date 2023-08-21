@@ -4,8 +4,10 @@ import "./assets/css/handleAddTask.css";
 import './assets/css/taskCompletePopup.css'
 import displayTasks from "./modules/displayTasks";
 import { displayProjectNamesInSidebar } from "./modules/displayProject";
+import handleHomeClick from "./modules/sidebarHandleClicks";
 
 
 template()
+// handleHomeClick()
 displayTasks()
 displayProjectNamesInSidebar()

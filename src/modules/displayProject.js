@@ -79,10 +79,6 @@ const handleSubmitButtonClick = () => {
   let dueDateText = "";
   let priorityText = "";
 
-  // if (!taskName.innerHTML) {
-  //   return alert("please fill Task Name field");
-  // }
-
   if (!dueDate.value) {
     dueDateText = "no due date";
   } else {
@@ -116,7 +112,6 @@ const addTaskToProject = (newTask) => {
     (project) => project.title == selectedProject
   );
   const taskArray = projects[indexofSelectedProject].tasks;
-  // const newTaskArray = previousTaskArray.push(newTask)
   taskArray.push(newTask);
   projects[indexofSelectedProject].tasks = taskArray;
   localStorage.setItem("Projects", JSON.stringify(projects));

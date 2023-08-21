@@ -1,15 +1,23 @@
 import { createAddtaskDiv } from "./layout";
 import createPopUpDiv from "./taskCompletPopup";
+import {
+  createDeadlineField,
+  createDescriptionField,
+  createTasknameField,
+} from "./taskForm";
+import { createPriorityField } from "./editTaskInProject";
 
 export default function displayTasks() {
   const mainContent = document.querySelector("#main-content");
+  const tasksDiv = document.createElement("div");
+  mainContent.replaceChildren();
   let tasks = [];
-  mainContent.replaceChildren()
 
-  
   createAndSortTaskArray(tasks);
-  createDivsPerTask(tasks, mainContent);
-  mainContent.append(createAddtaskDiv());
+  createDivsPerTask(tasks, tasksDiv);
+  tasksDiv.append(createAddtaskDiv());
+
+  mainContent.append(tasksDiv);
 
   return mainContent;
 }
@@ -17,11 +25,10 @@ export default function displayTasks() {
 const createAndSortTaskArray = (tasks) => {
   for (let i = 0; i <= localStorage.length - 1; i++) {
     const task = JSON.parse(localStorage.getItem(localStorage.key(i)));
-    if (!task.title){
-      return
-    }else{
-
-    tasks.push(task);
+    if (!task.title) {
+      return;
+    } else {
+      tasks.push(task);
     }
   }
 
@@ -31,22 +38,20 @@ const createAndSortTaskArray = (tasks) => {
   return tasks;
 };
 
-
-const createDivsPerTask = (tasks, mainContent) => {
+const createDivsPerTask = (tasks, tasksDiv) => {
   for (let i = 0; i < tasks.length; i++) {
     const taskDiv = createTaskDiv(tasks[i]);
-    mainContent.append(taskDiv);
+    tasksDiv.append(taskDiv);
   }
-  return mainContent;
+  return tasksDiv;
 };
-
 
 const handleCheckboxClick = (e) => {
   const mainContent = document.querySelector("#main-content");
-  const taskCompleted = localStorage.getItem(e.target.parentElement.id)
+  const taskCompleted = localStorage.getItem(e.target.parentElement.id);
   localStorage.removeItem(e.target.parentElement.id);
 
-  createPopUpDiv(taskCompleted)
+  createPopUpDiv(taskCompleted);
   mainContent.replaceChildren();
   displayTasks();
 };
@@ -54,6 +59,7 @@ const handleCheckboxClick = (e) => {
 const createTaskDiv = (task) => {
   const taskDiv = document.createElement("div");
   taskDiv.id = task.title;
+  taskDiv.addEventListener("click", (e) => editTask(e));
   const taskNameDiv = document.createElement("div");
 
   const taskDetailsDiv = document.createElement("div");
@@ -79,3 +85,107 @@ const createTaskDiv = (task) => {
   );
   return taskDiv;
 };
+
+const editTask = (e) => {
+  const taskName = e.target.parentElement.id;
+  const task = JSON.parse(localStorage.getItem(taskName));
+  if (!task){
+    return
+  }
+  const taskDivToEdit = e.target.parentElement;
+  const editFields = createEditFields(task);
+  taskDivToEdit.replaceWith(editFields);
+};
+const createEditFields = (task) => {
+  const editDiv = document.createElement("div");
+ 
+  editDiv.append(
+    editTaskNameField(task),
+    editTaskDescriptionField(task),
+    editDateField(task),
+    editPriorityField(task),
+    createSubmitButton(task),
+    createCancelButton()
+  );
+  return editDiv;
+};
+
+const editTaskNameField = (task) => {
+  const taskNameField = createTasknameField();
+  taskNameField.textContent = task.title;
+  return taskNameField;
+};
+
+const editTaskDescriptionField = (task) => {
+  const taskDescriptionField = createDescriptionField();
+  taskDescriptionField.textContent = task.description;
+  return taskDescriptionField;
+};
+
+const editDateField = (task) => {
+  const dateField = createDeadlineField();
+  const dateInsideDateField = dateField.querySelector("input");
+  dateInsideDateField.value = task.dueDate;
+  return dateField;
+};
+
+const editPriorityField = (task) => {
+  const priorityField = createPriorityField(task);
+  return priorityField;
+};
+
+const createCancelButton = () => {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.textContent = "Cancel";
+  button.addEventListener("click", () => displayTasks());
+  return button;
+};
+
+const createSubmitButton = (task)=> {
+  const button =document.createElement('button')
+  button.type = "button";
+  button.textContent = "Submit";
+  button.addEventListener("click", () => handleSubmitClick(task));
+  return button;
+}
+
+const handleSubmitClick = (task) => {
+  console.log(task)
+  const newTaskName = document.querySelector(
+    '[data-text="Task Name"]'
+  ).textContent;
+  const newDescription = document.querySelector(
+    '[data-text="Task Description"]'
+  ).textContent;
+  const newDate = document.querySelector('input[type="date"]').value;
+  const newPriority = document.querySelector(".active-button");
+
+  task.title = newTaskName;
+  task.description = newDescription;
+
+  if (!newTaskName) {
+    displayTasksInProject(projectName);
+    return alert("Input a task name");
+  }
+
+  if (!task.dueDate) {
+    task.dueDate = "no due date";
+  } else {
+    task.dueDate = newDate;
+  }
+
+  if (!newPriority) {
+    task.priority = "no priority set";
+  } else {
+    task.priority = newPriority.textContent;
+  }
+
+  updateValuesOnLocalStorage(task)
+  displayTasks()
+  
+}
+
+const updateValuesOnLocalStorage = (task) => {
+  localStorage.setItem(task.title, JSON.stringify(task))
+}

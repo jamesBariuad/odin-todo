@@ -18,7 +18,6 @@ const createPopUpDiv = (taskCompleted) => {
 };
 
 const handleUndo = (taskCompleted, popUpDiv) => {
-  console.log(JSON.parse(taskCompleted));
   const taskToRestore = JSON.parse(taskCompleted);
   localStorage.setItem(taskToRestore.title, taskCompleted);
   displayTasks();
