@@ -1,6 +1,7 @@
 import { createAddProjectDiv } from "./layout";
 import taskFactory from "./taskFactory";
 import createCheckbox from "./checkBoxForProjectTasks";
+import editTask from "./editTaskInProject";
 // import {  } from "./layout";
 import {
   createTasknameField,
@@ -94,10 +95,6 @@ const handleSubmitButtonClick = () => {
     priorityText = priority.innerHTML;
   }
 
-  // if (localStorage.getItem(`${taskName.innerHTML}`) !== null) {
-  //   return alert(`Task ${taskName.innerHTML} already exist!`);
-  // }
-
   const dateAdded = new Date().toISOString();
 
   const newTask = taskFactory(
@@ -121,7 +118,6 @@ const addTaskToProject = (newTask) => {
   const taskArray = projects[indexofSelectedProject].tasks;
   // const newTaskArray = previousTaskArray.push(newTask)
   taskArray.push(newTask);
-  console.log(taskArray);
   projects[indexofSelectedProject].tasks = taskArray;
   localStorage.setItem("Projects", JSON.stringify(projects));
 };
@@ -157,16 +153,13 @@ const createTaskDiv = (task) => {
   const dueDateDiv = document.createElement("div");
   const priorityDiv = document.createElement("div");
 
-  // const checkBox = document.createElement("input");
-  // checkBox.type = "checkbox";
   const checkBox = createCheckbox();
-
-  // checkBox.addEventListener("click", (e) => handleCheckboxClick(e));
 
   taskNameDiv.innerHTML = `Task:${task.title}`;
   taskDetailsDiv.innerHTML = `details:${task.description}`;
   dueDateDiv.textContent = `Due date:${task.dueDate}`;
   priorityDiv.textContent = `Priority:${task.priority}`;
+  taskDiv.addEventListener("click", (e) => editTask(e));
 
   taskDiv.append(
     checkBox,
