@@ -7,18 +7,22 @@ import {
 } from "./taskForm";
 import { createPriorityField } from "./editTaskInProject";
 
-export default function displayTasks() {
+export default function displayTasks(tasksToDisplay) {
   const mainContent = document.querySelector("#main-content");
   const tasksDiv = document.createElement("div");
   mainContent.replaceChildren();
-  let tasks = [];
+
+  
+  if (!tasksToDisplay) {
+    tasksToDisplay = [];
+  }
+
+  const tasks = tasksToDisplay;
 
   createAndSortTaskArray(tasks);
   createDivsPerTask(tasks, tasksDiv);
   tasksDiv.append(createAddtaskDiv());
-
   mainContent.append(tasksDiv);
-
   return mainContent;
 }
 
@@ -26,7 +30,7 @@ const createAndSortTaskArray = (tasks) => {
   for (let i = 0; i <= localStorage.length - 1; i++) {
     const task = JSON.parse(localStorage.getItem(localStorage.key(i)));
     if (!task.title) {
-      return;
+      continue;
     } else {
       tasks.push(task);
     }
@@ -89,8 +93,8 @@ const createTaskDiv = (task) => {
 const editTask = (e) => {
   const taskName = e.target.parentElement.id;
   const task = JSON.parse(localStorage.getItem(taskName));
-  if (!task){
-    return
+  if (!task) {
+    return;
   }
   const taskDivToEdit = e.target.parentElement;
   const editFields = createEditFields(task);
@@ -98,7 +102,7 @@ const editTask = (e) => {
 };
 const createEditFields = (task) => {
   const editDiv = document.createElement("div");
- 
+
   editDiv.append(
     editTaskNameField(task),
     editTaskDescriptionField(task),
@@ -142,16 +146,16 @@ const createCancelButton = () => {
   return button;
 };
 
-const createSubmitButton = (task)=> {
-  const button =document.createElement('button')
+const createSubmitButton = (task) => {
+  const button = document.createElement("button");
   button.type = "button";
   button.textContent = "Submit";
   button.addEventListener("click", () => handleSubmitClick(task));
   return button;
-}
+};
 
 const handleSubmitClick = (task) => {
-  console.log(task)
+  const oldTitle = task.title
   const newTaskName = document.querySelector(
     '[data-text="Task Name"]'
   ).textContent;
@@ -181,11 +185,14 @@ const handleSubmitClick = (task) => {
     task.priority = newPriority.textContent;
   }
 
-  updateValuesOnLocalStorage(task)
-  displayTasks()
-  
-}
+  updateValuesOnLocalStorage(task,oldTitle);
+  displayTasks();
+};
 
-const updateValuesOnLocalStorage = (task) => {
-  localStorage.setItem(task.title, JSON.stringify(task))
-}
+const updateValuesOnLocalStorage = (task,oldTitle) => {
+  localStorage.removeItem(oldTitle)
+  localStorage.setItem(task.title, JSON.stringify(task));
+
+};
+
+export { createDivsPerTask,editTaskNameField,editTaskDescriptionField, };

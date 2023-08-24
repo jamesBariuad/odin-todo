@@ -4,8 +4,8 @@ import { createTasknameField, createDescriptionField } from "./taskForm";
 const editTask = (e) => {
   const taskName = e.target.parentElement.id.toString();
   const taskToEdit = document.querySelector(`[id='${taskName}']`);
-  if(!taskToEdit){
-    return
+  if (!taskToEdit) {
+    return;
   }
   if (taskName == "") {
     return;
@@ -65,16 +65,25 @@ const createPriorityField = (task) => {
     low.classList.remove("active-button");
     medium.classList.remove("active-button");
     high.classList.remove("active-button");
-    if (e.target.innerText == "low" ) {
+    if (e.target.innerText == "low") {
       low.classList.add("active-button");
-    } else if (e.target.innerText == "medium" ) {
+    } else if (e.target.innerText == "medium") {
       medium.classList.add("active-button");
-    } else if (e.target.innerText == "high" ) {
+    } else if (e.target.innerText == "high") {
       high.classList.add("active-button");
     }
     priority = e.target.innerText;
     return priority;
   };
+
+  low.addEventListener("click", (e) => handlePriorityClick(e));
+  medium.addEventListener("click", (e) => handlePriorityClick(e));
+  high.addEventListener("click", (e) => handlePriorityClick(e));
+  priorityDiv.append(low, medium, high);
+
+  if (task==undefined) {
+    return priorityDiv;
+  }
 
   if (task.priority == "low") {
     low.classList.add("active-button");
@@ -84,10 +93,6 @@ const createPriorityField = (task) => {
     high.classList.add("active-button");
   }
 
-  low.addEventListener("click", (e) => handlePriorityClick(e));
-  medium.addEventListener("click", (e) => handlePriorityClick(e));
-  high.addEventListener("click", (e) => handlePriorityClick(e));
-  priorityDiv.append(low, medium, high);
   return priorityDiv;
 };
 
@@ -178,4 +183,4 @@ const findIndexOfTaskFromProject = (taskName) => {
 };
 
 export default editTask;
-export {createPriorityField}
+export { createPriorityField };

@@ -1,6 +1,7 @@
 import displayTasks from "./displayTasks";
+import { handleTodayClick } from "./sidebarHandleClicks";
 
-const createPopUpDiv = (taskCompleted) => {
+const createPopUpDiv = (taskCompleted,type) => {
   document.querySelector("main-content");
   const popUpDiv = document.createElement("div");
   popUpDiv.id = "pop-up";
@@ -8,7 +9,7 @@ const createPopUpDiv = (taskCompleted) => {
 
   const span = document.createElement("span");
   span.textContent = "undo";
-  span.addEventListener("click", () => handleUndo(taskCompleted, popUpDiv));
+  span.addEventListener("click", () => handleUndo(taskCompleted, popUpDiv, type));
   popUpDiv.append(span);
 
   setTimeout(() => {
@@ -17,10 +18,16 @@ const createPopUpDiv = (taskCompleted) => {
   document.body.append(popUpDiv);
 };
 
-const handleUndo = (taskCompleted, popUpDiv) => {
+const handleUndo = (taskCompleted, popUpDiv,type) => {
   const taskToRestore = JSON.parse(taskCompleted);
   localStorage.setItem(taskToRestore.title, taskCompleted);
-  displayTasks();
+
+
+  if (!type){
+    displayTasks();
+  } else if(type=='Today'){
+    handleTodayClick()
+  }
   popUpDiv.remove();
 };
 
