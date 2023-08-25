@@ -1,34 +1,96 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body{
-    background-color: green;
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 2fr 10fr;
-    grid-template-rows: 1fr 10fr 1fr;
+body {
+  font-family: serif, sans-serif;
+  background-color: whitesmoke;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 2fr 10fr;
+  grid-template-rows: 1fr 10fr 1fr;
+  padding-left: 2em;
 }
 
-header{
-    grid-column: span 2;
+header {
+  grid-column: span 2;
+}
+header > div {
+  height: 100%;
+  display: flex;
+  align-items: center;
+
+  font-size: 2.5em;
 }
 
-main{
-    display: grid;
-    grid-template-columns: 300px  1fr;
-    grid-column: span 2;
+main {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  grid-column: span 2;
 }
 
-#sidebar{
- display: grid;
- grid-auto-rows: 50px;
-
- /* gap: 10px; */
+#sidebar {
+  display: grid;
+  grid-auto-rows: 50px;
+  padding-top: 50px;
+  gap: 10px;
+  font-size: 1.5em;
 }
 
-footer{
-    margin-top: auto;
+#main-content {
+  padding-top: 50px;
+  font-size: 1.3em;
+}
+
+input[type="checkbox"] #tasks,
+#main-content {
+  display: grid;
+  gap: 30px;
+  /* grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); */
+  height: 2em;
+}
+
+#tasks div,
+#main-content div {
+  width: 200px;
+  background-color: whitesmoke;
+  border-radius: 10px;
+}
+
+#pop-up {
+  font-size: 1.5em;
+}
+
+#pop-up span {
+  color: blue;
+  cursor: pointer;
+}
+input[type="checkbox"]:before {
+  position: relative;
+  display: block;
+  width: 15px;
+  height: 15px;
+  border: 1px solid #808080;
+  content: "";
+  background: #fff;
+}
+
+.add-task {
+  border: 1px solid black;
+  width: fit-content;
+  border-radius: 5px;
+  text-align: center;
+  height: fit-content;
+}
+
+#add-project{
+    width: fit-content;
+    border: 1px solid black;
+    border-radius: 2px;
+}
+
+footer {
+  margin-top: auto;
 }

@@ -10,6 +10,7 @@ import { createPriorityField } from "./editTaskInProject";
 export default function displayTasks(tasksToDisplay) {
   const mainContent = document.querySelector("#main-content");
   const tasksDiv = document.createElement("div");
+  tasksDiv.id = 'tasks'
   mainContent.replaceChildren();
 
   
