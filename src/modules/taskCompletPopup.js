@@ -1,5 +1,5 @@
 import displayTasks from "./displayTasks";
-import { handleTodayClick } from "./sidebarHandleClicks";
+import { handleTodayClick, handleWeekClick } from "./sidebarHandleClicks";
 
 const createPopUpDiv = (taskCompleted,type) => {
   document.querySelector("main-content");
@@ -25,8 +25,10 @@ const handleUndo = (taskCompleted, popUpDiv,type) => {
 
   if (!type){
     displayTasks();
-  } else if(type=='Today'){
+  } else if(type=='today'){
     handleTodayClick()
+  } else if(type == 'week'){
+    handleWeekClick()
   }
   popUpDiv.remove();
 };

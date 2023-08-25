@@ -154,7 +154,7 @@ const handleCheckboxClick = (e, origin) => {
   const taskCompleted = localStorage.getItem(e.target.parentElement.id);
   localStorage.removeItem(e.target.parentElement.id);
 
-  createPopUpDiv(taskCompleted, "Today");
+  createPopUpDiv(taskCompleted, origin,);
   mainContent.replaceChildren();
 
   if (origin == "today") {
