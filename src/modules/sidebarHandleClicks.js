@@ -110,7 +110,7 @@ const displayOverdueAndTasksThisWeek = (
   createDivsPerTask(tasksThisWeek, todayDiv, origin);
   content.append(overDueDiv, todayDiv);
 
-  mainContent.append(content, createAddtaskDiv());
+  mainContent.append(content, createAddtaskDiv(origin));
 };
 
 const displayOverdueAndTodayTasks = (overdueTasks, tasksForToday, origin) => {
@@ -138,7 +138,7 @@ const displayOverdueAndTodayTasks = (overdueTasks, tasksForToday, origin) => {
   createDivsPerTask(tasksForToday, todayDiv, origin);
   content.append(overDueDiv, todayDiv);
 
-  mainContent.append(content, createAddtaskDiv());
+  mainContent.append(content, createAddtaskDiv(origin));
 };
 
 const createDivsPerTask = (tasks, tasksDiv, origin) => {
@@ -154,13 +154,13 @@ const handleCheckboxClick = (e, origin) => {
   const taskCompleted = localStorage.getItem(e.target.parentElement.id);
   localStorage.removeItem(e.target.parentElement.id);
 
-  createPopUpDiv(taskCompleted, origin,);
+  createPopUpDiv(taskCompleted, origin);
   mainContent.replaceChildren();
 
   if (origin == "today") {
     handleTodayClick();
-  }else if (origin =='week'){
-    handleWeekClick()
+  } else if (origin == "week") {
+    handleWeekClick();
   }
 };
 
@@ -231,14 +231,14 @@ const createEditFields = (task, origin) => {
   return editFieldsDiv;
 };
 
-const createEmptyFields = (addTaskDiv) => {
+const createEmptyFields = (addTaskDiv,origin) => {
   const editFieldsDiv = document.createElement("div");
   const taskField = createTasknameField();
   const taskDescriptionField = createDescriptionField();
   const deadlineField = createDeadlineField();
   const priorityField = createPriorityField();
-  const cancelButton = createCancelButton();
-  const submitButton = createSubmitButton();
+  const cancelButton = createCancelButton(origin);
+  const submitButton = createSubmitButton(null, origin);
   editFieldsDiv.append(
     taskField,
     taskDescriptionField,
@@ -253,11 +253,11 @@ const createEmptyFields = (addTaskDiv) => {
   return addTaskDiv;
 };
 
-const createAddtaskDiv = () => {
+const createAddtaskDiv = (origin) => {
   const addTaskDiv = document.createElement("div");
   addTaskDiv.textContent = "Add a Task";
   addTaskDiv.classList.add("add-task");
-  addTaskDiv.addEventListener("click", () => createEmptyFields(addTaskDiv));
+  addTaskDiv.addEventListener("click", () => createEmptyFields(addTaskDiv, origin));
   return addTaskDiv;
 };
 
@@ -326,6 +326,7 @@ const handleSubmitClick = (task, origin) => {
 };
 
 const addNewTask = (origin) => {
+ 
   const newTaskName = document.querySelector(
     '[data-text="Task Name"]'
   ).textContent;
@@ -358,10 +359,11 @@ const addNewTask = (origin) => {
     new Date().toISOString
   );
   updateValuesOnLocalStorage(newTask);
+  
   if (origin == "today") {
-    displayOverdueAndTodayTasks();
+    handleTodayClick();
   } else if (origin == "week") {
-    displayOverdueAndTasksThisWeek();
+    handleWeekClick();
   }
 };
 
